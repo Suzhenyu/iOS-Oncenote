@@ -14,9 +14,6 @@
 //15626266152
 //18285115452
 #import <SMS_SDK/SMSSDK.h>
-#import <SMS_SDK/SMSSDKCountryAndAreaCode.h>
-#import <SMS_SDK/SMSSDK+DeprecatedMethods.h>
-#import <SMS_SDK/SMSSDK+ExtexdMethods.h>
 #import <MOBFoundation/MOBFoundation.h>
 
 @interface RegisterViewController ()
@@ -116,16 +113,29 @@
       [AllUtils showPromptDialog:@"提示" andMessage:@"该账户已经存在，请直接登录！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
     }else{
       //该手机号没有注册，可以获取验证码；
-      [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:self.usernameTextField.text
+      [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS
+                              phoneNumber:self.usernameTextField.text
                                      zone:@"86"
-                         customIdentifier:nil
-                                   result:^(NSError *error){
-                                     if (!error){
-                                       [AllUtils showPromptDialog:@"提示" andMessage:@"验证码发送成功，请稍候！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
-                                     }
-                                     else{
-                                       [AllUtils showPromptDialog:@"提示" andMessage:@"手机号格式错误，请输入正确的手机号！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
-                                     }
+                                 template:nil
+                                   result:^(NSError *error) {
+                                       if (!error) {
+                                           [AllUtils showPromptDialog:@"提示"
+                                                           andMessage:@"验证码发送成功，请稍候！"
+                                                             OKButton:@"确定"
+                                                       OKButtonAction:nil
+                                                         cancelButton:@""
+                                                   cancelButtonAction:nil
+                                                contextViewController:self];
+                                       }
+                                       else {
+                                           [AllUtils showPromptDialog:@"提示"
+                                                           andMessage:@"手机号格式错误，请输入正确的手机号！"
+                                                             OKButton:@"确定"
+                                                       OKButtonAction:nil
+                                                         cancelButton:@""
+                                                   cancelButtonAction:nil
+                                                contextViewController:self];
+                                       }
                                    }];
     }
   }];

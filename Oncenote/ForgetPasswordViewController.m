@@ -13,9 +13,6 @@
 #import <BmobSDK/Bmob.h>
 
 #import <SMS_SDK/SMSSDK.h>
-#import <SMS_SDK/SMSSDKCountryAndAreaCode.h>
-#import <SMS_SDK/SMSSDK+DeprecatedMethods.h>
-#import <SMS_SDK/SMSSDK+ExtexdMethods.h>
 #import <MOBFoundation/MOBFoundation.h>
 
 @interface ForgetPasswordViewController ()
@@ -121,20 +118,15 @@
 
       [AllUtils showPromptDialog:@"提示" andMessage:@"该账户还未注册，请先注册！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
     }else{
-      //该手机号已经注册，可以获取验证码；
-      [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:self.phoneTextField.text
-                                     zone:@"86"
-                         customIdentifier:nil
-                                   result:^(NSError *error){
-                                     if (!error){
-
-                                       [AllUtils showPromptDialog:@"提示" andMessage:@"验证码发送成功，请稍候！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
-                                     }
-                                     else{
-
-                                       [AllUtils showPromptDialog:@"提示" andMessage:@"手机号格式错误，请输入正确的手机号！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
-                                     }
-                                   }];
+        //该手机号已经注册，可以获取验证码；
+        [SMSSDK getVerificationCodeByMethod:SMSGetCodeMethodSMS phoneNumber:self.phoneTextField.text zone:@"86" template:nil result:^(NSError *error) {
+            if (!error){
+                [AllUtils showPromptDialog:@"提示" andMessage:@"验证码发送成功，请稍候！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
+            }
+            else {
+                [AllUtils showPromptDialog:@"提示" andMessage:@"手机号格式错误，请输入正确的手机号！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
+            }
+        }];
     }
   }];
 }
