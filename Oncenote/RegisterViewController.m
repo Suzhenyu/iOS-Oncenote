@@ -36,43 +36,85 @@
 //创建账号；
 //重写注册的方法，不使用默认的_User表，而使用自己建的User表；
 - (IBAction)createAccountButtonPressed2:(id)sender{
-  
-  //首先判断有没有验证成功；
-  [SMSSDK commitVerificationCode:self.validateCodeTextField.text phoneNumber:self.usernameTextField.text zone:@"86" result:^(NSError *error) {
-    
-    if (!error) {
-
-      NSString *username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-      NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-      if (![username  isEqual: @""] && ![password  isEqual: @""]) {
+    NSString *username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (![username isEqual: @""] && ![password isEqual: @""]) {
         //用户名密码同时不为空，才可以进行注册；
         //向User表中插入一条用户信息；
         BmobObject *createAccount = [BmobObject objectWithClassName:USER_TABLE];
         [createAccount setObject:username forKey:@"username"];
         [createAccount setObject:password forKey:@"Password"];
         [createAccount saveInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
-          
-          if (isSuccessful) {
-            
-            [AllUtils showPromptDialog:@"提示" andMessage:@"注册成功，请登录！" OKButton:@"确定" OKButtonAction:^(UIAlertAction *action) {
-              
-              [AllUtils jumpToViewController:@"LoginViewController" contextViewController:self handler:nil];
-            } cancelButton:@"" cancelButtonAction:nil contextViewController:self];
-          } else {
-
-            [AllUtils showPromptDialog:@"提示" andMessage:@"服务器异常，注册失败，请稍候再试！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
-          }
+            if (isSuccessful) {
+                [AllUtils showPromptDialog:@"提示"
+                                andMessage:@"注册成功，请登录！"
+                                  OKButton:@"确定"
+                            OKButtonAction:^(UIAlertAction *action) {
+                                [AllUtils jumpToViewController:@"LoginViewController"
+                                         contextViewController:self
+                                                       handler:nil];
+                            }
+                              cancelButton:@""
+                        cancelButtonAction:nil
+                     contextViewController:self];
+            }
+            else {
+                [AllUtils showPromptDialog:@"提示"
+                                andMessage:@"服务器异常，注册失败，请稍候再试！"
+                                  OKButton:@"确定"
+                            OKButtonAction:nil
+                              cancelButton:@""
+                        cancelButtonAction:nil
+                     contextViewController:self];
+            }
         }];
-      }else{
-
-        [AllUtils showPromptDialog:@"提示" andMessage:@"请填写完整信息！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
-      }
-    }//if();
-    else{
-
-      [AllUtils showPromptDialog:@"提示" andMessage:@"验证失败，请重新获取验证码！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
     }
-  }];
+    else {
+        [AllUtils showPromptDialog:@"提示"
+                        andMessage:@"请填写完整信息！"
+                          OKButton:@"确定"
+                    OKButtonAction:nil
+                      cancelButton:@""
+                cancelButtonAction:nil
+             contextViewController:self];
+    }
+    
+//  //首先判断有没有验证成功；
+//  [SMSSDK commitVerificationCode:self.validateCodeTextField.text phoneNumber:self.usernameTextField.text zone:@"86" result:^(NSError *error) {
+//
+//    if (!error) {
+//
+//      NSString *username = [self.usernameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//      NSString *password = [self.passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//      if (![username  isEqual: @""] && ![password  isEqual: @""]) {
+//        //用户名密码同时不为空，才可以进行注册；
+//        //向User表中插入一条用户信息；
+//        BmobObject *createAccount = [BmobObject objectWithClassName:USER_TABLE];
+//        [createAccount setObject:username forKey:@"username"];
+//        [createAccount setObject:password forKey:@"Password"];
+//        [createAccount saveInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+//
+//          if (isSuccessful) {
+//
+//            [AllUtils showPromptDialog:@"提示" andMessage:@"注册成功，请登录！" OKButton:@"确定" OKButtonAction:^(UIAlertAction *action) {
+//
+//              [AllUtils jumpToViewController:@"LoginViewController" contextViewController:self handler:nil];
+//            } cancelButton:@"" cancelButtonAction:nil contextViewController:self];
+//          } else {
+//
+//            [AllUtils showPromptDialog:@"提示" andMessage:@"服务器异常，注册失败，请稍候再试！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
+//          }
+//        }];
+//      }else{
+//
+//        [AllUtils showPromptDialog:@"提示" andMessage:@"请填写完整信息！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
+//      }
+//    }//if();
+//    else{
+//
+//      [AllUtils showPromptDialog:@"提示" andMessage:@"验证失败，请重新获取验证码！" OKButton:@"确定" OKButtonAction:nil cancelButton:@"" cancelButtonAction:nil contextViewController:self];
+//    }
+//  }];
 }
 
 //获取验证码；

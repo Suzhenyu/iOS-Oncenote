@@ -27,9 +27,8 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  
-  //初始化BmobSDK；
-  [Bmob registerWithAppKey:@"399fd662392b0852cb22181e40e7b72e"];
+    //初始化BmobSDK；
+    [Bmob registerWithAppKey:@"95c5be3d6f822b63149a5fcfd854a78a"];
     
     [ShareSDK registerActivePlatforms:@[
                                         @(SSDKPlatformTypeSinaWeibo),

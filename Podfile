@@ -1,4 +1,5 @@
 platform :ios, '9.0'
+inhibit_all_warnings!
 
 target 'Oncenote' do
   use_frameworks!
@@ -13,18 +14,4 @@ target 'Oncenote' do
   pod 'ShareSDK3/ShareSDKPlatforms/WeChat'
   pod 'mob_smssdk'
 
-  target 'OncenoteTests' do
-    inherit! :search_paths
-  end
-
-  target 'OncenoteUITests' do
-    inherit! :search_paths
-  end
-
-end
-
-target 'Oncenote WatchKit App' do
-end
-
-target 'Oncenote WatchKit Extension' do
 end
